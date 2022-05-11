@@ -25,10 +25,11 @@
 #include "usart.h"
 #include "usb_otg.h"
 #include "gpio.h"
+#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "wizchip_conf.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,6 +102,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_RNG_Init();
+  MX_FMC_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -179,7 +181,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void wlz830mj_init(void)
+{
 
+}
 /* USER CODE END 4 */
 
 /* MPU Configuration */

@@ -72,7 +72,7 @@ extern "C" {
 #define W5500						5500
 
 #ifndef _WIZCHIP_
-#define _WIZCHIP_                      W5500   // W5100, W5100S, W5200, W5300, W5500
+#define _WIZCHIP_                      W5300   // W5100, W5100S, W5200, W5300, W5500
 #endif
 
 #define _WIZCHIP_IO_MODE_NONE_         0x0000
@@ -172,7 +172,7 @@ extern "C" {
     * @todo you should select the bus width. Select one of 8 or 16.
     */
    #ifndef _WIZCHIP_IO_BUS_WIDTH_
-   #define _WIZCHIP_IO_BUS_WIDTH_       16  // 8
+   #define _WIZCHIP_IO_BUS_WIDTH_       8  // 16
    #endif
    #if _WIZCHIP_IO_BUS_WIDTH_ == 8
       typedef   uint8_t   iodata_t;
@@ -464,7 +464,7 @@ void reg_wizchip_cris_cbfunc(void(*cris_en)(void), void(*cris_ex)(void));
 
 
 /**
- *@brief Registers call back function for WIZCHIP select & deselect.
+ *@brief Registers call back function for WIZCHIP select & deselect
  *@param cs_sel : callback function for WIZCHIP select
  *@param cs_desel : callback fucntion for WIZCHIP deselect
  *@todo Describe @ref wizchip_cs_select and @ref wizchip_cs_deselect function or register your functions.
