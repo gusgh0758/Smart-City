@@ -464,7 +464,7 @@ void reg_wizchip_cris_cbfunc(void(*cris_en)(void), void(*cris_ex)(void));
 
 
 /**
- *@brief Registers call back function for WIZCHIP select & deselect
+ *@brief Registers call back function for WIZCHIP select & deselect.
  *@param cs_sel : callback function for WIZCHIP select
  *@param cs_desel : callback fucntion for WIZCHIP deselect
  *@todo Describe @ref wizchip_cs_select and @ref wizchip_cs_deselect function or register your functions.

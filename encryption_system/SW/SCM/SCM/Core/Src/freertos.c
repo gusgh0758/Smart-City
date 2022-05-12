@@ -109,7 +109,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  //osThreadDef(unit_side_data, Unit_Side_Data_Task, osPriorityHigh, 0, 1024);
+  //osThreadDef(unit_side_data, Unit_Side_Data_Task, osPriorityHigh, 0, 4096);
   //defaultTaskHandle = osThreadCreate(osThread(unit_side_data), NULL);
 
   /* USER CODE END RTOS_THREADS */
@@ -128,6 +128,9 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
+  osThreadDef(unit_side_data, Unit_Side_Data_Task, osPriorityHigh, 0, 4096);
+  defaultTaskHandle = osThreadCreate(osThread(unit_side_data), NULL);
+
   /* Infinite loop */
   for(;;)
   {
