@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "cmsis_os.h"
 #include "lwip.h"
-#include "socket.h"
+#include "wiz_socket.h"
 #include "wizchip_conf.h"
 #include "w5300.h"
 #include "freertos_function.h"
