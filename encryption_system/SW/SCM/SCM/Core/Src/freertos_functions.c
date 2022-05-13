@@ -17,24 +17,9 @@ extern ip4_addr_t ipaddr;
 
 void Unit_Side_Data_Task(void const * argument)
 {
-	/*
-	ip_addr_t Unit_IPADDR;
-	//IP_ADDR4(&PC_IPADDR, 192, 168, 1, 50);
-
-	struct udp_pcb* udp_pcb_ins = udp_new();
-	udp_connect(my_udp, &PC_IPADDR, 55151);
-	struct pbuf* udp_buffer = NULL;
-	udp_buffer = pbuf_alloc(PBUF_TRANSPORT, 1460, PBUF_RAM);
-
-	udp_recv(struct udp_pcb *pcb, udp_recv_fn recv, void *recv_arg); // set receive callback function
-	*/
 	err_t error;
-	struct netbuf *buf = netbuf_new();
+	struct netbuf *buf;
 	struct netconn *conn = netconn_new(NETCONN_UDP);
-
-	if (buf == NULL) {
-			printf("error");
-		}
 
 	if (conn == NULL) {
 		printf("error");
@@ -48,7 +33,7 @@ void Unit_Side_Data_Task(void const * argument)
 	for(;;)
 	{
 		lwip_udp_test(conn, buf);
-		osDelay(1000);
+		osDelay(10);
 	}
 }
 
