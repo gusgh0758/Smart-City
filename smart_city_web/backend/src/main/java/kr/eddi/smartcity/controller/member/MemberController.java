@@ -4,18 +4,16 @@ import kr.eddi.smartcity.controller.member.form.EmailMatchPhoneForm;
 import kr.eddi.smartcity.controller.member.form.EmailPasswordForm;
 import kr.eddi.smartcity.controller.member.form.MemberLoginForm;
 import kr.eddi.smartcity.controller.member.form.MemberRegisterForm;
+
 import kr.eddi.smartcity.service.account.SignInService;
 import kr.eddi.smartcity.service.account.SignUpService;
-import kr.eddi.smartcity.service.account.dto.MemberLoginRequest;
-import kr.eddi.smartcity.service.session.SessionService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -54,13 +52,10 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public Boolean signIn(@Validated @RequestBody MemberLoginForm form, BindingResult bindingResult) {
+    public String signIn(@Validated @RequestBody MemberLoginForm form, BindingResult bindingResult) {
         log.info("MainFormController#signIn: {}", form);
-        if (bindingResult.hasFieldErrors()) {
-            return false;
-        }
-        signInService.signIn(form.toLoginRequest());
-        return true;
+
+        return signInService.signIn(form.toLoginRequest());
     }
 
     @GetMapping("/find-email/{email}")

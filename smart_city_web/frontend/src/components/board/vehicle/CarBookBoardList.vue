@@ -1,6 +1,6 @@
 <template>
   <div style="font-family: 'Noto Sans KR', sans-serif">
-    <v-container class="white" style="width: 1400px">
+    <v-container class="white">
       <v-row>
         <v-col>
           <div class="mb-10">
@@ -32,49 +32,44 @@
       <v-row>
         <v-col
           ><v-card flat>
-            <v-card-title class="mb-3">
-              <div style="countWrap">
-                총
-                <b class="count">{{ carBookBoards.length }}</b
-                >개의 공지사항이 있습니다.
-              </div>
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                placeholder="검색어를 입력해주세요."
-                single-line
-                hide-details
-                color="orange"
-                style="width: 10px"
-                outlined
-                rounded
-              />
-            </v-card-title>
-            <div>
+            <div v-if="!carBookBoards || (Array.isArray(carBookBoards) && carBookBoards.length === 0)">
+              <td colspan="3">
+                현재 예약된 일정이 없습니다!
+              </td>
+            </div>
+            <div v-else>
+              <v-card-title class="mb-3">
+                <div style="countWrap">
+                  총
+                  <b class="count">{{ carBookBoards.length }}</b
+                  >개의 차량 예약이 진행중입니다.
+                </div>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  placeholder="검색어를 입력해주세요."
+                  hide-details
+                  color="orange"
+                  outlined
+                  rounded
+                />
+              </v-card-title>
+
               <v-data-table
                 :headers="headers"
                 :items="carBookBoards"
                 :items-per-page="itemsPerPage"
-                :key="carBookBoards.boardNo"
+                :key="carBookBoards.id"
                 :search="search"
                 :page.sync="page"
                 hide-default-footer
+                @click:row="handleClick"
                 @page-count="pageCount = $event"
                 class="vTable"
               >
-                <template v-slot:[`item.title`]="{ item }">
-                  <router-link
-                    style="color: black; text-decoration: none"
-                    :to="{
-                      name: 'NoticeReadPage',
-                      params: { boardNo: item.boardNo.toString() },
-                    }"
-                    >{{ item.title }}</router-link
-                  >
-                </template>
               </v-data-table>
               <div class="text-center pt-10">
                 <v-pagination
@@ -91,7 +86,6 @@
       <v-row>
         <v-col>
           <v-btn
-            v-if="loginAuth == '관리자' || loginAuth == '매니저'"
             x-large
             rounded
             color="orange lighten-1"
@@ -99,7 +93,7 @@
             style="float: right"
             @click="register"
           >
-            공지사항 작성</v-btn
+            차량 예약하기</v-btn
           >
         </v-col>
       </v-row>
@@ -112,7 +106,7 @@
 export default {
   name: "CarBookBoardList",
   props: {
-    noticeBoards: {
+    carBookBoards: {
       type: Array,
     },
   },
@@ -123,25 +117,34 @@ export default {
       headers: [
         {
           text: "No",
-          value: "boardNo",
-          width: "100px",
-          align: "center",
+          value: "id",
+          align: "left",
           class: "orange lighten-5",
         },
         {
-          text: "작성자",
-          value: "writer",
-          width: "150px",
-          align: "center",
+          text: "예약일자",
+          value: "date",
+          align: "left",
           class: "orange lighten-5",
         },
         {
-          text: "작성일자",
-          value: "regDate",
-          width: "300px",
-          align: "center",
+          text: "시간",
+          value: "time",
+          align: "left",
           class: "orange lighten-5",
         },
+        {
+          text: "출발지",
+          value: "source",
+          align: "left",
+          class: "orange lighten-5",
+        },
+        {
+          text: "목적지",
+          value: "destination",
+          align: "left",
+          class: "orange lighten-5",
+        }
       ],
       search: "",
       page: 1,
@@ -151,15 +154,23 @@ export default {
   },
   methods: {
     register() {
-      this.$router.push("/carBookRegister");
+      this.$router.push("/car-book-register")
     },
+    handleClick (value) {
+      //console.log('value: ' + JSON.stringify(value))
+      //const { id, date, time, source, destination } = value;
+      //console.log('carBookBoards: ' + id + ', ' + date + ', ' + time + ', ' + source + ', ' + destination)
+      console.log('id: ' + value.id)
+      this.$router.push({
+        name: 'CarBookBoardReadView', 
+        params: { boardNo: value.id.toString() }
+      })
+    }
   },
   created() {
-    if (this.$store.state.userInfo != null) {
-      this.userInfo = this.$store.state.userInfo;
-      this.loginAuth = this.userInfo.auth;
-    } else {
-      alert("내집, 내직장 예약의 경우엔 로그인 후 보다 간편하게 이용할 수 있습니다.");
+    if (this.$store.state.isAuthenticated == false) {
+      alert("로그인 후 이용해주세요.");
+      this.$router.push("/sign-in");
     }
   },
 };
