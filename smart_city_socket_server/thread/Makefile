@@ -1,13 +1,14 @@
 ifeq ($(RELEASE), 1)
-DBG_FLAGS = -O2 -lpthread
+DBG_FLAGS = -O2 -lpthread -std=c99
 else
-DBG_FLAGS = -g -O0 -DDEBUG -lpthread
+DBG_FLAGS = -g -O0 -DDEBUG -lpthread -std=c99
 endif
 
 PWD = $(shell pwd)
 
 INC_DIRS = -I$(PWD)/../common
 INC_DIRS += -I$(PWD)/../protocol
+INC_DIRS += -I$(PWD)/../data_structure/queue
 
 #SRCS = $(patsubst %.o,%,$(wildcard *.c))
 SRCS = $(wildcard *.c)
